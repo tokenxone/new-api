@@ -46,6 +46,10 @@ type AuthPromptTarget = {
 }
 
 export interface PublicHeaderProps {
+  workspace?: boolean
+  workspaceTools?: ReactNode
+  mobileWorkspaceTools?: ReactNode
+  mobileMenuTools?: ReactNode
   navLinks?: TopNavLink[]
   mobileLinks?: TopNavLink[]
   navContent?: React.ReactNode
@@ -122,6 +126,10 @@ export function PublicHeader(props: PublicHeaderProps) {
   if (loading) authContent = <Skeleton className='h-8 w-20 rounded-lg' />
 
   useEffect(() => {
+    setMobileOpen(false)
+  }, [pathname])
+
+  useEffect(() => {
     document.body.style.overflow = mobileOpen ? 'hidden' : ''
     return () => {
       document.body.style.overflow = ''
@@ -191,11 +199,16 @@ export function PublicHeader(props: PublicHeaderProps) {
 
   return (
     <>
-      <header className='bg-background/90 border-border/40 fixed inset-x-0 top-0 z-50 border-b backdrop-blur-xl'>
-        <div className='mx-auto max-w-7xl px-4 md:px-6'>
-          <nav className='flex h-16 items-center justify-between gap-2 px-2'>
+      <header
+        className={cn(
+          'bg-background/90 border-border/40 top-0 z-50 h-16 w-full shrink-0 border-b backdrop-blur-xl',
+          props.workspace ? 'sticky' : 'fixed inset-x-0'
+        )}
+      >
+        <div className='mx-auto h-full max-w-7xl px-4 md:px-6'>
+          <nav className='flex h-full items-center justify-between gap-2 px-2'>
             {/* Logo */}
-            <div className='@container/system-brand flex min-w-0 flex-1 items-center gap-1 lg:min-w-36'>
+            <div className='@container/system-brand flex min-w-0 flex-1 items-center gap-1'>
               <Link
                 to={homeUrl}
                 className='group flex min-w-0 items-center gap-2.5'
@@ -215,12 +228,25 @@ export function PublicHeader(props: PublicHeaderProps) {
                 </span>
               </Link>
               <SystemUpdateAction presentation='version' />
+              {props.workspaceTools && (
+                <div className='ml-4 hidden shrink-0 items-center gap-1 lg:flex'>
+                  {props.workspaceTools}
+                </div>
+              )}
+              {props.mobileWorkspaceTools && (
+                <div className='ml-1 flex shrink-0 items-center lg:hidden'>
+                  {props.mobileWorkspaceTools}
+                </div>
+              )}
             </div>
 
             {/* Desktop nav */}
             <div className='hidden min-w-0 items-center gap-0.5 lg:flex'>
               {links.map((link) => {
-                const isActive = pathname === link.href
+                const isActive =
+                  pathname === link.href ||
+                  (link.href === '/dashboard' &&
+                    pathname.startsWith('/dashboard/'))
                 if (link.external) {
                   return (
                     <a
@@ -304,6 +330,7 @@ export function PublicHeader(props: PublicHeaderProps) {
                 className='size-9'
                 onClick={() => setMobileOpen((v) => !v)}
                 aria-label={t('Toggle navigation menu')}
+                aria-expanded={mobileOpen}
               >
                 <div className='relative size-4'>
                   <span
@@ -333,6 +360,8 @@ export function PublicHeader(props: PublicHeaderProps) {
 
       {/* Mobile full-screen overlay */}
       <div
+        inert={!mobileOpen}
+        aria-hidden={!mobileOpen}
         className={cn(
           'bg-background/98 fixed inset-0 z-40 backdrop-blur-2xl transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] lg:pointer-events-none lg:hidden',
           mobileOpen
@@ -342,8 +371,16 @@ export function PublicHeader(props: PublicHeaderProps) {
       >
         <div className='flex h-full flex-col justify-between px-8 pt-20 pb-10'>
           <nav className='flex flex-col gap-1'>
+            {props.mobileMenuTools && (
+              <div className='mb-4 flex items-center gap-2'>
+                {props.mobileMenuTools}
+              </div>
+            )}
             {links.map((link, i) => {
-              const isActive = pathname === link.href
+              const isActive =
+                pathname === link.href ||
+                (link.href === '/dashboard' &&
+                  pathname.startsWith('/dashboard/'))
               const linkClassName = cn(
                 'flex items-center gap-3 py-3 text-base font-medium tracking-tight transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]',
                 mobileOpen
