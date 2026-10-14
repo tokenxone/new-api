@@ -16,7 +16,6 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 For commercial licensing, please contact support@quantumnous.com
 */
-import { ConfigDrawer } from '@/components/config-drawer'
 import { Search } from '@/components/search'
 import { SidebarTrigger } from '@/components/ui/sidebar'
 
@@ -27,21 +26,12 @@ export function AppHeader() {
     <PublicHeader
       workspace
       workspaceTools={
-        <>
-          <SidebarTrigger variant='ghost' className='size-8' />
-          <Search className='size-8 flex-none p-0 sm:w-8 sm:pe-0 lg:w-8 xl:w-8 [&>kbd]:hidden [&>span]:hidden' />
-          <ConfigDrawer />
-        </>
+        <Search className='size-8 flex-none p-0 sm:w-8 sm:pe-0 lg:w-8 xl:w-8 [&>kbd]:hidden [&>span]:hidden' />
       }
       mobileWorkspaceTools={
         <SidebarTrigger variant='ghost' className='size-8' />
       }
-      mobileMenuTools={
-        <>
-          <Search />
-          <ConfigDrawer />
-        </>
-      }
+      mobileMenuTools={<Search />}
     />
   )
 }
