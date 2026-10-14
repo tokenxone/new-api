@@ -26,7 +26,7 @@ import { useTheme } from '@/context/theme-provider'
 import { isLikelyHtml } from '@/lib/content-format'
 import { useAuthStore } from '@/stores/auth-store'
 
-import { CTA, Features, Hero, HowItWorks, Stats } from './components'
+import { TokenXOneLanding } from './components/tokenxone-landing'
 import { useHomePageContent } from './hooks'
 
 export function Home() {
@@ -122,11 +122,15 @@ export function Home() {
 
   return (
     <PublicLayout showMainContainer={false}>
-      <Hero isAuthenticated={isAuthenticated} />
-      <Stats />
-      <Features />
-      <HowItWorks />
-      <CTA isAuthenticated={isAuthenticated} />
+      <TokenXOneLanding isAuthenticated={isAuthenticated} />
+      <div className='border-border/40 border-t px-6 py-4 text-center text-xs'>
+        <a
+          href='https://github.com/tokenxone/new-api'
+          className='text-muted-foreground hover:text-foreground underline underline-offset-4'
+        >
+          {t('Source code')}
+        </a>
+      </div>
       <Footer />
     </PublicLayout>
   )

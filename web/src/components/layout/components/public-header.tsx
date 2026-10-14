@@ -312,6 +312,7 @@ export function PublicHeader(props: PublicHeaderProps) {
 
             {/* Mobile: compact actions + hamburger */}
             <div className='flex shrink-0 items-center gap-2 lg:hidden'>
+              {showLanguageSwitcher && <LanguageSwitcher />}
               {showThemeSwitch && <ThemeSwitch />}
               {showAuthButtons && !loading && isAuthenticated && (
                 <ProfileDropdown />
