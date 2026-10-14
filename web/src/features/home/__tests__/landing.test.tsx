@@ -68,7 +68,7 @@ describe('TokenXOne landing page', () => {
   it('updates the headline and page title when changing from English to Chinese', async () => {
     await renderLanding()
     expect(await screen.findByRole('heading', { level: 1 })).toHaveTextContent(
-      'Many models.One connection.'
+      'Many models.One API.'
     )
     await act(() => i18next.changeLanguage('zhCN'))
     expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(
