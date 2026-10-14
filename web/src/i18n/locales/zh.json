@@ -7317,6 +7317,10 @@
     "Review your first request": "查看首次调用记录",
     "Built on New API": "基于 New API 构建",
     "Source code": "源代码",
-    "TokenXOne — AI models, one connection": "TokenXOne — 多模型 AI API 接入平台"
+    "TokenXOne — AI models, one connection": "TokenXOne — 多模型 AI API 接入平台",
+    "If this email is registered, a reset link will arrive shortly.": "如果该邮箱已注册，你将收到密码重置链接。",
+    "Password updated. Sign in with your new password.": "密码已更新，请使用新密码登录。",
+    "Google authorization failed. Please try again.": "Google 授权失败，请重试。",
+    "Or continue with email": "或使用邮箱"
   }
 }

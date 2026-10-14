@@ -74,3 +74,6 @@ channel.upstream_update_added_models: "Added model examples (showing {{.Shown}}/
 channel.upstream_update_removed_models: "Removed model examples (showing {{.Shown}}/{{.Total}}): {{.Models}}"
 channel.upstream_update_failed_channels: "Failed channel IDs (showing {{.Shown}}/{{.Total}}): {{.Ids}}"
 channel.upstream_update_more_omitted: " ({{.Count}} more omitted)"
+
+email.password_updated.subject: "{{.SystemName}} password updated"
+email.password_updated.content: "Your password has been updated and existing sign-in sessions have been closed. If you did not make this change, reset your password and contact support."

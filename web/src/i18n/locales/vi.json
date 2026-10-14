@@ -7317,6 +7317,10 @@
     "Review your first request": "Review your first request",
     "Built on New API": "Built on New API",
     "Source code": "Source code",
-    "TokenXOne — AI models, one connection": "TokenXOne — AI models, one connection"
+    "TokenXOne — AI models, one connection": "TokenXOne — AI models, one connection",
+    "If this email is registered, a reset link will arrive shortly.": "Nếu email này đã đăng ký, bạn sẽ sớm nhận được liên kết đặt lại mật khẩu.",
+    "Password updated. Sign in with your new password.": "Đã cập nhật mật khẩu. Hãy đăng nhập bằng mật khẩu mới.",
+    "Google authorization failed. Please try again.": "Ủy quyền Google không thành công. Vui lòng thử lại.",
+    "Or continue with email": "Hoặc tiếp tục bằng email"
   }
 }

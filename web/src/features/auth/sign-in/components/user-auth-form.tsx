@@ -63,6 +63,7 @@ import { cn } from '@/lib/utils'
 export function UserAuthForm({
   className,
   redirectTo,
+  onForgotPassword,
   ...props
 }: AuthFormProps) {
   const { t } = useTranslation()
@@ -363,6 +364,8 @@ export function UserAuthForm({
                   <FormControl>
                     <Input
                       placeholder={t('Enter your username or email')}
+                      autoComplete='username'
+                      autoCapitalize='none'
                       {...field}
                     />
                   </FormControl>
@@ -381,12 +384,22 @@ export function UserAuthForm({
                   <FormControl>
                     <PasswordInput
                       placeholder={t('Enter password')}
+                      autoComplete='current-password'
                       {...field}
                     />
                   </FormControl>
                   <FormMessage />
                   <Link
                     to='/forgot-password'
+                    search={{ redirect: redirectTo }}
+                    onClick={
+                      onForgotPassword
+                        ? (event) => {
+                            event.preventDefault()
+                            onForgotPassword()
+                          }
+                        : undefined
+                    }
                     className='text-muted-foreground absolute end-0 -top-0.5 z-10 text-sm font-medium hover:opacity-75'
                   >
                     {t('Forgot password?')}

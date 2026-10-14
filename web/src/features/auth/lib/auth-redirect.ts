@@ -71,7 +71,10 @@ export function sanitizeAuthRedirect(
 
   if (
     !allowedRedirectProtocols.has(redirectURL.protocol) ||
-    redirectURL.origin !== trustedOrigin.origin
+    redirectURL.origin !== trustedOrigin.origin ||
+    /^\/(?:sign-in|sign-up|forgot-password|reset|user\/reset|otp|oauth)(?:\/|$)/.test(
+      redirectURL.pathname
+    )
   ) {
     return null
   }

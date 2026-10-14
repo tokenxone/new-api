@@ -49,10 +49,13 @@ import { cn } from '@/lib/utils'
 
 export function ForgotPasswordForm({
   className,
+  redirectTo,
   ...props
-}: React.HTMLAttributes<HTMLFormElement>) {
+}: React.HTMLAttributes<HTMLFormElement> & { redirectTo?: string }) {
   const { t } = useTranslation()
   const [isLoading, setIsLoading] = useState(false)
+  const [sent, setSent] = useState(false)
+  const [widgetKey, setWidgetKey] = useState(0)
 
   const {
     isTurnstileEnabled,
@@ -78,11 +81,18 @@ export function ForgotPasswordForm({
 
     setIsLoading(true)
     try {
-      const res = await sendPasswordResetEmail(data.email, turnstileToken)
+      const res = await sendPasswordResetEmail(
+        data.email,
+        turnstileToken,
+        redirectTo
+      )
       if (res?.success) {
         form.reset()
         startCountdown()
-        toast.success(t('Reset email sent, please check your inbox'))
+        setSent(true)
+        toast.success(
+          t('If this email is registered, a reset link will arrive shortly.')
+        )
       } else {
         handleServerError(
           createServerError(res, t('Failed to send reset email'))
@@ -93,6 +103,8 @@ export function ForgotPasswordForm({
         AuthOperationError.from(_error, t('Failed to send reset email'))
       )
     } finally {
+      setTurnstileToken('')
+      setWidgetKey((key) => key + 1)
       setIsLoading(false)
     }
   }
@@ -104,14 +116,26 @@ export function ForgotPasswordForm({
         className={cn('grid gap-2', className)}
         {...props}
       >
+        {sent && (
+          <p role='status' className='text-muted-foreground text-sm'>
+            {t(
+              'If this email is registered, a reset link will arrive shortly.'
+            )}
+          </p>
+        )}
         <FormField
           control={form.control}
           name='email'
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Email</FormLabel>
+              <FormLabel>{t('Email')}</FormLabel>
               <FormControl>
-                <Input placeholder='name@example.com' {...field} />
+                <Input
+                  type='email'
+                  autoComplete='email'
+                  placeholder='name@example.com'
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -132,6 +156,8 @@ export function ForgotPasswordForm({
         {isTurnstileEnabled && (
           <div className='mt-2'>
             <Turnstile
+              key={widgetKey}
+              onExpire={() => setTurnstileToken('')}
               siteKey={turnstileSiteKey}
               onVerify={setTurnstileToken}
             />

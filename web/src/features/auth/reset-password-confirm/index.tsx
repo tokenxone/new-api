@@ -16,195 +16,139 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 For commercial licensing, please contact support@quantumnous.com
 */
-import { useNavigate } from '@tanstack/react-router'
-import { CheckIcon, CopyIcon } from 'lucide-react'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { Link } from '@tanstack/react-router'
 import { useState } from 'react'
+import { useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
-import { toast } from 'sonner'
+import { z } from 'zod'
 
-import { Alert, AlertDescription } from '@/components/ui/alert'
+import { PasswordInput } from '@/components/password-input'
 import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import { useCountdown } from '@/hooks/use-countdown'
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form'
 import { api } from '@/lib/api'
-import { copyToClipboard } from '@/lib/copy-to-clipboard'
 import { handleServerError } from '@/lib/handle-server-error'
+import { accountPasswordSchema } from '@/lib/password-policy'
 import { AuthOperationError } from '@/lib/secure-verification'
 import { createServerError } from '@/lib/server-error-message'
 
 import { AuthLayout } from '../auth-layout'
+import type { resetSearchSchema } from '../constants'
+import { sanitizeAuthRedirect } from '../lib/auth-redirect'
 
-export type ResetPasswordSearchParams = {
-  email?: string
-  token?: string
-}
-
-type ResetPasswordConfirmProps = ResetPasswordSearchParams
+export type ResetPasswordSearchParams = z.infer<typeof resetSearchSchema>
+const resetSchema = z
+  .object({ password: accountPasswordSchema, confirmPassword: z.string() })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords don't match.",
+    path: ['confirmPassword'],
+  })
 
 export function ResetPasswordConfirm({
   email,
   token,
-}: ResetPasswordConfirmProps) {
+  redirect,
+}: ResetPasswordSearchParams) {
   const { t } = useTranslation()
-  const navigate = useNavigate()
-  const [newPassword, setNewPassword] = useState('')
+  const [done, setDone] = useState(false)
   const [loading, setLoading] = useState(false)
-  const [copied, setCopied] = useState(false)
-  const {
-    secondsLeft,
-    isActive,
-    start: startCountdown,
-  } = useCountdown({ initialSeconds: 30 })
-
-  const isValidResetLink = Boolean(email && token)
-
-  async function handleSubmit() {
-    if (!isValidResetLink || !email || !token) {
-      toast.error(t('Invalid reset link, please request a new password reset'))
-      return
-    }
-
-    startCountdown()
+  const form = useForm<z.infer<typeof resetSchema>>({
+    resolver: zodResolver(resetSchema),
+    defaultValues: { password: '', confirmPassword: '' },
+  })
+  const target =
+    sanitizeAuthRedirect(redirect, window.location.origin) ?? undefined
+  const valid = Boolean(email && token)
+  async function onSubmit(data: z.infer<typeof resetSchema>) {
+    if (!valid || loading) return
     setLoading(true)
     try {
-      const res = await api.post('/api/user/reset', { email, token }, {
-        skipBusinessError: true,
-      } as Record<string, unknown>)
-
-      if (res?.data?.success) {
-        const password = res.data.data
-        setNewPassword(password)
-        const copySuccess = await copyToClipboard(password)
-        if (copySuccess) {
-          toast.success(
-            t('Password reset and copied to clipboard: {{password}}', {
-              password,
-            })
-          )
-        } else {
-          toast.success(t('Password reset: {{password}}', { password }))
-        }
-      } else {
-        handleServerError(createServerError(res.data, t('Request failed')))
+      const response = await api.post(
+        '/api/user/reset',
+        { email, token, password: data.password },
+        { skipAuthRefresh: true }
+      )
+      if (!response.data.success) {
+        throw createServerError(response.data, t('Request failed'))
       }
+      form.reset()
+      setDone(true)
+      // Remove the one-time secret from this history entry once consumed.
+      window.history.replaceState(
+        window.history.state,
+        '',
+        window.location.pathname
+      )
     } catch (error) {
       handleServerError(AuthOperationError.from(error))
     } finally {
       setLoading(false)
     }
   }
-
-  async function handleCopy() {
-    if (!newPassword) return
-
-    const copySuccess = await copyToClipboard(newPassword)
-    if (copySuccess) {
-      setCopied(true)
-      toast.success(
-        t('Password copied to clipboard: {{password}}', {
-          password: newPassword,
-        })
-      )
-      setTimeout(() => setCopied(false), 2000)
-    }
-  }
-
   return (
     <AuthLayout>
-      <div className='w-full space-y-8'>
-        <div className='space-y-2'>
-          <h2 className='text-center text-2xl font-semibold tracking-tight sm:text-left'>
-            {t('Reset password')}
-          </h2>
-          <p className='text-muted-foreground text-left text-sm sm:text-base'>
-            {newPassword
-              ? t('auth.resetPasswordConfirm.success')
-              : t('auth.resetPasswordConfirm.description')}
+      <div className='space-y-6'>
+        <h2 className='text-2xl font-semibold'>{t('Reset password')}</h2>
+        {done && (
+          <p role='status'>
+            {t('Password updated. Sign in with your new password.')}
           </p>
-        </div>
-
-        <div className='space-y-4'>
-          {!isValidResetLink && (
-            <Alert variant='destructive'>
-              <AlertDescription>
-                {t('Invalid reset link, please request a new password reset.')}
-              </AlertDescription>
-            </Alert>
-          )}
-
-          <div className='space-y-2'>
-            <Label htmlFor='email'>{t('Email')}</Label>
-            <Input
-              id='email'
-              type='email'
-              value={email || ''}
-              disabled
-              placeholder={t('Waiting for email...')}
-            />
-          </div>
-
-          {newPassword && (
-            <div className='space-y-2'>
-              <Label htmlFor='password'>{t('New password')}</Label>
-              <div className='flex gap-2'>
-                <Input
-                  id='password'
-                  value={newPassword}
-                  disabled
-                  className='font-mono'
-                />
-                <Button
-                  type='button'
-                  size='icon'
-                  variant='outline'
-                  onClick={handleCopy}
-                >
-                  {copied ? (
-                    <CheckIcon className='h-4 w-4' />
-                  ) : (
-                    <CopyIcon className='h-4 w-4' />
-                  )}
-                </Button>
-              </div>
-              <p className='text-muted-foreground text-xs'>
-                {t('Password has been copied to clipboard')}
-              </p>
-            </div>
-          )}
-
-          <Button
-            className='w-full'
-            onClick={
-              newPassword
-                ? () => navigate({ to: '/sign-in', replace: true })
-                : handleSubmit
-            }
-            disabled={
-              newPassword ? false : loading || isActive || !isValidResetLink
-            }
-          >
-            {newPassword && t('auth.resetPasswordConfirm.backToLogin')}
-            {!newPassword &&
-              isActive &&
-              t('auth.resetPasswordConfirm.retry', {
-                seconds: secondsLeft,
-              })}
-            {!newPassword &&
-              !isActive &&
-              t('auth.resetPasswordConfirm.confirm')}
-          </Button>
-
-          {!newPassword && (
-            <Button
-              variant='link'
-              className='w-full'
-              onClick={() => navigate({ to: '/sign-in', replace: true })}
-            >
-              {t('Back to login')}
-            </Button>
-          )}
-        </div>
+        )}
+        {!done && !valid && (
+          <p role='alert'>
+            {t('Invalid reset link, please request a new password reset.')}
+          </p>
+        )}
+        {!done && valid && (
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-4'>
+              <p className='text-muted-foreground text-sm'>{email}</p>
+              <FormField
+                control={form.control}
+                name='password'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>{t('New password')}</FormLabel>
+                    <FormControl>
+                      <PasswordInput autoComplete='new-password' {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name='confirmPassword'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>{t('Confirm password')}</FormLabel>
+                    <FormControl>
+                      <PasswordInput autoComplete='new-password' {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <Button type='submit' disabled={loading} className='w-full'>
+                {t('Reset password')}
+              </Button>
+            </form>
+          </Form>
+        )}
+        <Link
+          to={valid || done ? '/sign-in' : '/forgot-password'}
+          search={{ redirect: target }}
+          className='block text-sm underline underline-offset-4'
+        >
+          {t(valid || done ? 'Back to login' : 'Send reset email')}
+        </Link>
       </div>
     </AuthLayout>
   )

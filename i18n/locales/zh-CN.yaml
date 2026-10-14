@@ -75,3 +75,6 @@ channel.upstream_update_added_models: "新增模型示例（展示 {{.Shown}}/{{
 channel.upstream_update_removed_models: "删除模型示例（展示 {{.Shown}}/{{.Total}}）：{{.Models}}"
 channel.upstream_update_failed_channels: "失败渠道 ID（展示 {{.Shown}}/{{.Total}}）：{{.Ids}}"
 channel.upstream_update_more_omitted: "（其余 {{.Count}} 个已省略）"
+
+email.password_updated.subject: "{{.SystemName}} 密码已更新"
+email.password_updated.content: "你的密码已更新，现有登录会话已退出。如果这不是你的操作，请立即重置密码并联系客服。"

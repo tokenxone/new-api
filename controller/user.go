@@ -231,6 +231,10 @@ func Register(c *gin.Context) {
 	}
 	user.Username = strings.TrimSpace(user.Username)
 	user.Email = model.NormalizeEmail(user.Email)
+	// Email-first registration keeps the existing stable user identity model.
+	if user.Username == "" && common.EmailVerificationEnabled && user.Email != "" {
+		user.Username = "user_" + common.GenerateVerificationCode(14)
+	}
 	if user.Username == "" {
 		common.ApiErrorT(c, "Invalid parameters")
 		return
@@ -239,12 +243,16 @@ func Register(c *gin.Context) {
 		common.ApiErrorT(c, "Invalid input {{error}}", map[string]any{"error": err.Error()})
 		return
 	}
+	if err := common.ValidateNewAccountPassword(user.Password); err != nil {
+		common.ApiErrorT(c, err.Error())
+		return
+	}
 	if common.EmailVerificationEnabled {
 		if user.Email == "" || user.VerificationCode == "" {
 			common.ApiErrorT(c, "Email verification is enabled, please enter email address and verification code")
 			return
 		}
-		if !common.VerifyCodeWithKey(user.Email, user.VerificationCode, common.EmailVerificationPurpose) {
+		if !common.ConsumeVerificationCode(user.Email, user.VerificationCode, common.EmailVerificationPurpose) {
 			common.ApiErrorT(c, "Verification code is incorrect or has expired")
 			return
 		}

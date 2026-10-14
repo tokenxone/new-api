@@ -18,18 +18,17 @@ For commercial licensing, please contact support@quantumnous.com
 */
 import { createFileRoute, useSearch } from '@tanstack/react-router'
 
-import {
-  ResetPasswordConfirm,
-  type ResetPasswordSearchParams,
-} from '@/features/auth/reset-password-confirm'
+import { resetSearchSchema } from '@/features/auth/constants'
+import { ResetPasswordConfirm } from '@/features/auth/reset-password-confirm'
 
 export const Route = createFileRoute('/(auth)/reset')({
   component: ResetPassword,
+  validateSearch: resetSearchSchema,
 })
 
 function ResetPassword() {
   const search = useSearch({
     from: '/(auth)/reset',
-  }) as ResetPasswordSearchParams
-  return <ResetPasswordConfirm email={search?.email} token={search?.token} />
+  })
+  return <ResetPasswordConfirm {...search} />
 }

@@ -18,7 +18,7 @@ For commercial licensing, please contact support@quantumnous.com
 */
 import { Link } from '@tanstack/react-router'
 import { ArrowRight, Layers, KeyRound, Activity } from 'lucide-react'
-import { useEffect } from 'react'
+import { lazy, Suspense, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { Button } from '@/components/ui/button'
@@ -26,8 +26,11 @@ import { useStatus } from '@/hooks/use-status'
 
 import { TokenXOneFAQ } from './tokenxone-faq'
 
+const AuthDialog = lazy(() => import('@/features/auth/components/auth-dialog'))
+
 export function TokenXOneLanding(props: { isAuthenticated: boolean }) {
   const { t } = useTranslation()
+  const [authOpen, setAuthOpen] = useState(false)
   const { status } = useStatus()
   const destination = props.isAuthenticated ? '/dashboard' : '/sign-up'
   const docsUrl =
@@ -83,6 +86,16 @@ export function TokenXOneLanding(props: { isAuthenticated: boolean }) {
   ]
   return (
     <main>
+      {authOpen && (
+        <Suspense fallback={null}>
+          <AuthDialog
+            open
+            onOpenChange={setAuthOpen}
+            initialMode='sign-up'
+            redirectTo='/dashboard'
+          />
+        </Suspense>
+      )}
       <section className='relative overflow-hidden px-6 pt-28 pb-20 md:pt-40 md:pb-28'>
         <div
           aria-hidden='true'
@@ -104,7 +117,22 @@ export function TokenXOneLanding(props: { isAuthenticated: boolean }) {
               <Button
                 role='link'
                 className='h-11 px-5'
-                render={<Link to={destination} />}
+                render={
+                  <Link
+                    to={destination}
+                    search={
+                      props.isAuthenticated
+                        ? undefined
+                        : { redirect: '/dashboard' }
+                    }
+                    onClick={(event) => {
+                      if (!props.isAuthenticated) {
+                        event.preventDefault()
+                        setAuthOpen(true)
+                      }
+                    }}
+                  />
+                }
               >
                 {props.isAuthenticated
                   ? t('Go to Dashboard')
@@ -206,7 +234,20 @@ export function TokenXOneLanding(props: { isAuthenticated: boolean }) {
         <Button
           role='link'
           className='mt-8 h-11 px-5'
-          render={<Link to={destination} />}
+          render={
+            <Link
+              to={destination}
+              search={
+                props.isAuthenticated ? undefined : { redirect: '/dashboard' }
+              }
+              onClick={(event) => {
+                if (!props.isAuthenticated) {
+                  event.preventDefault()
+                  setAuthOpen(true)
+                }
+              }}
+            />
+          }
         >
           {props.isAuthenticated ? t('Go to Dashboard') : t('Start building')}
           <ArrowRight aria-hidden='true' />

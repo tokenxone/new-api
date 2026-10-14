@@ -7317,6 +7317,10 @@
     "Review your first request": "Review your first request",
     "Built on New API": "Built on New API",
     "Source code": "Source code",
-    "TokenXOne — AI models, one connection": "TokenXOne — AI models, one connection"
+    "TokenXOne — AI models, one connection": "TokenXOne — AI models, one connection",
+    "If this email is registered, a reset link will arrive shortly.": "Если этот адрес зарегистрирован, вы получите ссылку для сброса пароля.",
+    "Password updated. Sign in with your new password.": "Пароль обновлён. Войдите с новым паролем.",
+    "Google authorization failed. Please try again.": "Ошибка авторизации Google. Попробуйте ещё раз.",
+    "Or continue with email": "Или продолжить с электронной почтой"
   }
 }

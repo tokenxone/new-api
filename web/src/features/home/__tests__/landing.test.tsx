@@ -79,7 +79,9 @@ describe('TokenXOne landing page', () => {
   it('links signed-out visitors to registration and the model catalog', async () => {
     await renderLanding()
     const links = await screen.findAllByRole('link', { name: 'Start building' })
-    for (const link of links) expect(link).toHaveAttribute('href', '/sign-up')
+    for (const link of links) {
+      expect(link).toHaveAttribute('href', '/sign-up?redirect=%2Fdashboard')
+    }
     expect(
       screen.getByRole('link', { name: 'Models & pricing' })
     ).toHaveAttribute('href', '/pricing')

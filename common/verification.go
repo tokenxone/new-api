@@ -1,6 +1,7 @@
 package common
 
 import (
+	"crypto/subtle"
 	"strings"
 	"sync"
 	"time"
@@ -9,8 +10,9 @@ import (
 )
 
 type verificationValue struct {
-	code string
-	time time.Time
+	attempts int
+	code     string
+	time     time.Time
 }
 
 const (
@@ -75,4 +77,31 @@ func init() {
 	verificationMutex.Lock()
 	defer verificationMutex.Unlock()
 	verificationMap = make(map[string]verificationValue)
+}
+
+// ConsumeVerificationCode atomically accepts a single attempt. Failed attempts
+// are bounded per challenge, including requests distributed across IPs.
+func ConsumeVerificationCode(key, code, purpose string) bool {
+	verificationMutex.Lock()
+	defer verificationMutex.Unlock()
+	mapKey := purpose + key
+	value, ok := verificationMap[mapKey]
+	if !ok {
+		return false
+	}
+	if time.Since(value.time) >= time.Duration(VerificationValidMinutes)*time.Minute {
+		delete(verificationMap, mapKey)
+		return false
+	}
+	if subtle.ConstantTimeCompare([]byte(code), []byte(value.code)) != 1 {
+		value.attempts++
+		if value.attempts >= 5 {
+			delete(verificationMap, mapKey)
+		} else {
+			verificationMap[mapKey] = value
+		}
+		return false
+	}
+	delete(verificationMap, mapKey)
+	return true
 }

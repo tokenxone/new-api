@@ -26,6 +26,7 @@ import {
   IconTelegram,
   IconWeChat,
 } from '@/assets/brand-icons'
+import { IconGoogle } from '@/assets/brand-icons/icon-google'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 
@@ -109,6 +110,10 @@ export function OAuthProviders({
         name: oidcDisplayName,
       }),
       onClick: handleOIDCLogin,
+      icon:
+        oidcDisplayName.toLowerCase() === 'google' ? (
+          <IconGoogle className='h-4 w-4' />
+        ) : undefined,
     })
   }
 
@@ -145,14 +150,14 @@ export function OAuthProviders({
   if (providerButtons.length === 0) return null
 
   return (
-    <div className={cn('space-y-3', className)}>
-      <div className='relative'>
+    <div className={cn('flex flex-col gap-3', className)}>
+      <div className='relative order-last'>
         <div className='absolute inset-0 flex items-center'>
           <span className='w-full border-t' />
         </div>
         <div className='relative flex justify-center text-xs uppercase'>
           <span className='bg-background text-muted-foreground px-2'>
-            {t('Or continue with')}
+            {t('Or continue with email')}
           </span>
         </div>
       </div>
@@ -168,7 +173,7 @@ export function OAuthProviders({
               onClick={onClick}
               className='h-11 w-full justify-center gap-2 rounded-lg'
             >
-              {icon}
+              <span aria-hidden='true'>{icon}</span>
               {label}
             </Button>
           )
