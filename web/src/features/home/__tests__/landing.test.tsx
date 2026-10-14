@@ -99,7 +99,7 @@ describe('TokenXOne landing page', () => {
     await renderLanding()
     const user = userEvent.setup()
     const trigger = await screen.findByRole('button', {
-      name: 'How should I store my API key?',
+      name: 'How does pricing work?',
     })
     trigger.focus()
     await user.keyboard('{Enter}')
@@ -107,7 +107,7 @@ describe('TokenXOne landing page', () => {
     expect(
       screen.getByText(
         en.translation[
-          'Keep keys on your server or in a secure configuration environment. Never put them in public repositories, browser code or shared files.'
+          'Pricing varies by model. Check the applicable pricing before making requests and review your usage in the console.'
         ]
       )
     ).toBeVisible()

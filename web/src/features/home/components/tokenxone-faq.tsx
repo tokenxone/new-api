@@ -29,24 +29,6 @@ export function TokenXOneFAQ() {
   const { t } = useTranslation()
   const items = [
     {
-      question: t('What is TokenXOne?'),
-      answer: t(
-        'TokenXOne is an AI model access and management platform. Use its API to call available models and the console to manage keys and review usage.'
-      ),
-    },
-    {
-      question: t('How do I get started?'),
-      answer: t(
-        'Create an account, follow the setup instructions in the console, and create an API key. Then follow the integration guide to send a request.'
-      ),
-    },
-    {
-      question: t('Which models are available?'),
-      answer: t(
-        'Visit Models & pricing for the current model catalog, capabilities and pricing information.'
-      ),
-    },
-    {
       question: t('How does pricing work?'),
       answer: t(
         'Pricing varies by model. Check the applicable pricing before making requests and review your usage in the console.'
@@ -56,12 +38,6 @@ export function TokenXOneFAQ() {
       question: t('Can I connect an existing application?'),
       answer: t(
         'Applications with configurable API endpoints and keys can be set up using the integration guide. Compatibility depends on the API and model capabilities they use.'
-      ),
-    },
-    {
-      question: t('How should I store my API key?'),
-      answer: t(
-        'Keep keys on your server or in a secure configuration environment. Never put them in public repositories, browser code or shared files.'
       ),
     },
   ]

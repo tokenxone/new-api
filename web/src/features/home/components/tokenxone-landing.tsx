@@ -17,7 +17,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 For commercial licensing, please contact support@quantumnous.com
 */
 import { Link } from '@tanstack/react-router'
-import { ArrowRight, Check, Layers, KeyRound, Activity } from 'lucide-react'
+import { ArrowRight, Layers, KeyRound, Activity } from 'lucide-react'
 import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -88,11 +88,8 @@ export function TokenXOneLanding(props: { isAuthenticated: boolean }) {
           aria-hidden='true'
           className='via-background pointer-events-none absolute inset-0 bg-gradient-to-br from-blue-500/10 to-violet-500/10'
         />
-        <div className='relative mx-auto grid max-w-6xl items-center gap-12 lg:grid-cols-2 lg:gap-20'>
+        <div className='relative mx-auto max-w-6xl'>
           <div>
-            <p className='text-primary mb-5 text-sm font-medium'>
-              {t('AI APIs for developers and teams')}
-            </p>
             <h1 className='text-5xl leading-[1.12] font-bold tracking-tight sm:text-6xl'>
               {t('Many models.')}
               <br />
@@ -123,46 +120,7 @@ export function TokenXOneLanding(props: { isAuthenticated: boolean }) {
                 {t('Models & pricing')}
               </Button>
             </div>
-            <p className='text-muted-foreground mt-4 text-xs leading-relaxed'>
-              {t(
-                'Create an account, get an API key, and make your first request.'
-              )}
-            </p>
           </div>
-          <aside
-            className='border-border bg-card relative rounded-2xl border p-7 shadow-xl shadow-blue-950/5 md:p-9'
-            aria-label={t('Integration checklist')}
-          >
-            <div className='border-border mb-8 flex items-center justify-between border-b pb-5'>
-              <span className='text-xl font-semibold tracking-tight'>
-                TokenXOne
-              </span>
-              <span className='text-muted-foreground font-mono text-xs'>
-                API
-              </span>
-            </div>
-            <h2 className='text-xl font-semibold'>
-              {t('Integration checklist')}
-            </h2>
-            <ol className='mt-6 space-y-5'>
-              {[
-                t('Choose an available model'),
-                t('Configure your endpoint'),
-                t('Keep your key on the server'),
-                t('Review your first request'),
-              ].map((label) => (
-                <li key={label} className='flex items-center gap-3 text-sm'>
-                  <span className='bg-primary/10 text-primary flex size-7 shrink-0 items-center justify-center rounded-full'>
-                    <Check className='size-4' aria-hidden='true' />
-                  </span>
-                  {label}
-                </li>
-              ))}
-            </ol>
-            <p className='text-muted-foreground border-border mt-8 border-t pt-5 text-xs leading-relaxed'>
-              {t('One place to connect, choose and track.')}
-            </p>
-          </aside>
         </div>
       </section>
       <section className='border-border/50 border-t px-6 py-20 md:py-24'>
@@ -170,11 +128,6 @@ export function TokenXOneLanding(props: { isAuthenticated: boolean }) {
           <h2 className='text-3xl font-semibold tracking-tight'>
             {t('Spend your time building.')}
           </h2>
-          <p className='text-muted-foreground mt-4 leading-relaxed'>
-            {t(
-              'From model access to everyday usage, manage it all in one place.'
-            )}
-          </p>
           <div className='mt-10 grid gap-8 md:grid-cols-3'>
             {features.map((feature) => (
               <article
@@ -203,11 +156,6 @@ export function TokenXOneLanding(props: { isAuthenticated: boolean }) {
             <p className='text-muted-foreground mt-4 max-w-2xl leading-relaxed'>
               {t(
                 'Explore the models currently available on TokenXOne, with pricing and supported capabilities in one place.'
-              )}
-            </p>
-            <p className='text-muted-foreground mt-4 max-w-2xl text-xs leading-relaxed'>
-              {t(
-                'Availability, capabilities and prices are shown in the live model catalog.'
               )}
             </p>
           </div>
@@ -255,9 +203,6 @@ export function TokenXOneLanding(props: { isAuthenticated: boolean }) {
         <h2 className='text-3xl font-semibold tracking-tight md:text-4xl'>
           {t('Put your next idea into motion.')}
         </h2>
-        <p className='text-muted-foreground mx-auto mt-5 max-w-xl leading-relaxed'>
-          {t('Begin with one model request. Build from there.')}
-        </p>
         <Button
           role='link'
           className='mt-8 h-11 px-5'
