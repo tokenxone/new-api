@@ -206,30 +206,6 @@ export function TokenXOneLanding(props: { isAuthenticated: boolean }) {
         </div>
       </section>
       <TokenXOneFAQ />
-      <section className='tx-closing border-border/50 relative overflow-hidden border-t px-6 py-20 text-center md:py-28'>
-        <h2 className='text-3xl font-semibold tracking-tight md:text-4xl'>
-          {t('Put your next idea into motion.')}
-        </h2>
-        <Button
-          role='link'
-          className='mt-8 h-11 px-5'
-          render={
-            <Link
-              to={destination}
-              search={props.isAuthenticated ? undefined : { redirect: '/keys' }}
-              onClick={(event) => {
-                if (!props.isAuthenticated) {
-                  event.preventDefault()
-                  setAuthOpen(true)
-                }
-              }}
-            />
-          }
-        >
-          {t('Get API key')}
-          <ArrowRight aria-hidden='true' />
-        </Button>
-      </section>
     </main>
   )
 }

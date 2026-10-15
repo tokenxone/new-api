@@ -93,7 +93,7 @@ describe('TokenXOne landing page', () => {
     })) {
       expect(link).toHaveAttribute('href', '/keys')
     }
-    expect(screen.getAllByRole('link', { name: 'Get API key' })).toHaveLength(2)
+    expect(screen.getAllByRole('link', { name: 'Get API key' })).toHaveLength(1)
   })
   it('switches request examples with the keyboard and copies the active language', async () => {
     const user = userEvent.setup()
