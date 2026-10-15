@@ -24,7 +24,7 @@ import { toast } from 'sonner'
 import { Combobox } from '@/components/ui/combobox'
 import { TitledCard } from '@/components/ui/titled-card'
 import {
-  INTERFACE_LANGUAGE_OPTIONS,
+  SELECTABLE_INTERFACE_LANGUAGE_OPTIONS,
   normalizeInterfaceLanguage,
 } from '@/i18n/languages'
 import { handleServerError } from '@/lib/handle-server-error'
@@ -116,7 +116,7 @@ export function LanguagePreferencesCard(props: LanguagePreferencesCardProps) {
         </div>
         <div className='flex items-center gap-2 sm:min-w-48'>
           <Combobox
-            options={INTERFACE_LANGUAGE_OPTIONS.map((language) => ({
+            options={SELECTABLE_INTERFACE_LANGUAGE_OPTIONS.map((language) => ({
               value: language.code,
               label: language.label,
             }))}

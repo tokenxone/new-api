@@ -26,6 +26,11 @@ export const INTERFACE_LANGUAGE_OPTIONS = [
   { code: 'zhTW', label: '繁體中文' },
 ] as const
 
+export const SELECTABLE_INTERFACE_LANGUAGE_OPTIONS =
+  INTERFACE_LANGUAGE_OPTIONS.filter(
+    (language) => language.code === 'zhCN' || language.code === 'en'
+  )
+
 export type InterfaceLanguageCode =
   (typeof INTERFACE_LANGUAGE_OPTIONS)[number]['code']
 
