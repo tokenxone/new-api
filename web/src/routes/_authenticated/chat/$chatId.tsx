@@ -23,6 +23,7 @@ import { useTranslation } from 'react-i18next'
 
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Button } from '@/components/ui/button'
+import { CHAT_INTEGRATIONS_ENABLED } from '@/features/chat/config'
 import { useActiveChatKey } from '@/features/chat/hooks/use-active-chat-key'
 import { useChatPresets } from '@/features/chat/hooks/use-chat-presets'
 import {
@@ -31,6 +32,9 @@ import {
 } from '@/features/chat/lib/chat-links'
 
 export const Route = createFileRoute('/_authenticated/chat/$chatId')({
+  beforeLoad: () => {
+    if (!CHAT_INTEGRATIONS_ENABLED) throw redirect({ to: '/dashboard' })
+  },
   loader: async ({ params }) => {
     if (!Number.isInteger(Number(params.chatId))) {
       throw redirect({ to: '/dashboard' })

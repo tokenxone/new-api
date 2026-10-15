@@ -21,6 +21,7 @@ import { useMemo } from 'react'
 import type { SystemStatus } from '@/features/auth/types'
 import { useStatus } from '@/hooks/use-status'
 
+import { CHAT_INTEGRATIONS_ENABLED } from '../config'
 import {
   type ChatPreset,
   parseChatConfig,
@@ -73,6 +74,7 @@ export function useChatPresets(): {
   const serverAddress = useMemo(() => extractServerAddress(status), [status])
 
   const chatPresets = useMemo(() => {
+    if (!CHAT_INTEGRATIONS_ENABLED) return []
     const raw = extractChats(status)
     return parseChatConfig(raw)
   }, [status])
