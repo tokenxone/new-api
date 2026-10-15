@@ -37,7 +37,6 @@ import { useAuthStore } from '@/stores/auth-store'
 
 import { ModelsChartPreferences } from './components/models/models-chart-preferences'
 import { ModelsFilter } from './components/models/models-filter-dialog'
-import { OverviewDashboard } from './components/overview/overview-dashboard'
 import { DEFAULT_TIME_GRANULARITY } from './constants'
 import {
   buildDefaultDashboardFilters,
@@ -177,9 +176,6 @@ function PerformanceOverviewFallback() {
 }
 
 const SECTION_META: Record<DashboardSectionId, { titleKey: string }> = {
-  overview: {
-    titleKey: 'Overview',
-  },
   models: {
     titleKey: 'Model Call Analytics',
   },
@@ -243,13 +239,11 @@ export function Dashboard() {
     []
   )
 
-  const meta = SECTION_META[activeSection] ?? SECTION_META.overview
+  const meta = SECTION_META[activeSection] ?? SECTION_META.models
   const isAdmin = Boolean(userRole && userRole >= ROLE.ADMIN)
   const visibleSections = useMemo(
     () =>
-      DASHBOARD_SECTION_IDS.filter(
-        (section) => section !== 'overview' && (section !== 'users' || isAdmin)
-      ),
+      DASHBOARD_SECTION_IDS.filter((section) => section !== 'users' || isAdmin),
     [isAdmin]
   )
   const handleSectionChange = useCallback(
@@ -261,8 +255,7 @@ export function Dashboard() {
     },
     [navigate]
   )
-  const showSectionTabs =
-    activeSection !== 'overview' && visibleSections.length > 1
+  const showSectionTabs = visibleSections.length > 1
   const modelActions =
     activeSection === 'models' ? (
       <>
@@ -316,10 +309,6 @@ export function Dashboard() {
       </>
     ) : null
   const sectionActions = modelActions ?? flowActions
-
-  if (activeSection === 'overview') {
-    return <OverviewDashboard />
-  }
 
   return (
     <SectionPageLayout>
