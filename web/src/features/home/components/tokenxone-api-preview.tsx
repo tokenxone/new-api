@@ -66,7 +66,7 @@ print(response.choices[0].message.content)`,
       <div className='tx-preview-heading flex items-center justify-between gap-3 border-b px-5 py-4'>
         <span className='flex items-center gap-2.5 text-sm font-medium'>
           <Terminal className='text-primary size-4' aria-hidden='true' />
-          {t('Your first request')}
+          {t('Request example')}
         </span>
         <span className='tx-example-label text-xs'>{t('Example')}</span>
       </div>

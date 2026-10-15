@@ -78,24 +78,22 @@ describe('TokenXOne landing page', () => {
   })
   it('links signed-out visitors to registration and the model catalog', async () => {
     await renderLanding()
-    const links = await screen.findAllByRole('link', { name: 'Start building' })
+    const links = await screen.findAllByRole('link', { name: 'Get API key' })
     for (const link of links) {
-      expect(link).toHaveAttribute('href', '/sign-up?redirect=%2Fdashboard')
+      expect(link).toHaveAttribute('href', '/sign-up?redirect=%2Fkeys')
     }
     expect(
-      screen.getByRole('link', { name: 'Models & pricing' })
+      screen.getByRole('link', { name: 'Explore models' })
     ).toHaveAttribute('href', '/pricing')
   })
-  it('links signed-in visitors to their dashboard', async () => {
+  it('links signed-in visitors directly to API key management', async () => {
     await renderLanding(true)
     for (const link of await screen.findAllByRole('link', {
-      name: 'Go to Dashboard',
+      name: 'Get API key',
     })) {
-      expect(link).toHaveAttribute('href', '/dashboard')
+      expect(link).toHaveAttribute('href', '/keys')
     }
-    expect(
-      screen.queryByRole('link', { name: 'Start building' })
-    ).not.toBeInTheDocument()
+    expect(screen.getAllByRole('link', { name: 'Get API key' })).toHaveLength(2)
   })
   it('switches request examples with the keyboard and copies the active language', async () => {
     const user = userEvent.setup()
@@ -119,6 +117,20 @@ describe('TokenXOne landing page', () => {
     expect(screen.getByRole('region', { name: 'API 请求示例' })).toBeVisible()
     expect(python).toHaveAttribute('aria-selected', 'true')
   })
+  it('shows the usage FAQ and keeps the model catalog accessible from Choose', async () => {
+    const user = userEvent.setup()
+    await renderLanding()
+    expect(await screen.findByRole('link', { name: 'Choose' })).toHaveAttribute(
+      'href',
+      '/pricing'
+    )
+    await user.click(
+      screen.getByRole('button', { name: 'How do I track usage?' })
+    )
+    expect(
+      screen.getByText('View request history and usage in your dashboard.')
+    ).toBeVisible()
+  })
   it('opens and closes a FAQ answer with the keyboard', async () => {
     await renderLanding()
     const user = userEvent.setup()
@@ -131,7 +143,7 @@ describe('TokenXOne landing page', () => {
     expect(
       screen.getByText(
         en.translation[
-          'Pricing varies by model. Check the applicable pricing before making requests and review your usage in the console.'
+          'Pricing varies by model. Check model prices before sending requests, then review charges in your usage history.'
         ]
       )
     ).toBeVisible()

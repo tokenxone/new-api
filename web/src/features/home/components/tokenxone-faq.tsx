@@ -31,21 +31,25 @@ export function TokenXOneFAQ() {
     {
       question: t('How does pricing work?'),
       answer: t(
-        'Pricing varies by model. Check the applicable pricing before making requests and review your usage in the console.'
+        'Pricing varies by model. Check model prices before sending requests, then review charges in your usage history.'
       ),
     },
     {
-      question: t('Can I connect an existing application?'),
+      question: t('Can I use my existing app?'),
       answer: t(
-        'Applications with configurable API endpoints and keys can be set up using the integration guide. Compatibility depends on the API and model capabilities they use.'
+        'If your app supports a custom API base URL and API key, you can configure it to use TokenXOne. Compatibility depends on the API and model features your app needs.'
       ),
+    },
+    {
+      question: t('How do I track usage?'),
+      answer: t('View request history and usage in your dashboard.'),
     },
   ]
   return (
     <section id='faq' className='border-border/50 border-t px-6 py-20'>
       <div className='mx-auto max-w-3xl'>
         <h2 className='mb-8 text-3xl font-semibold tracking-tight'>
-          {t('Frequently asked questions')}
+          {t('FAQs')}
         </h2>
         <Accordion>
           {items.map((item) => (

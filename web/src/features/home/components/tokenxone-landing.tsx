@@ -33,7 +33,7 @@ export function TokenXOneLanding(props: { isAuthenticated: boolean }) {
   const { t } = useTranslation()
   const [authOpen, setAuthOpen] = useState(false)
   const { status } = useStatus()
-  const destination = props.isAuthenticated ? '/dashboard' : '/sign-up'
+  const destination = props.isAuthenticated ? '/keys' : '/sign-up'
   const docsUrl =
     typeof status?.docs_link === 'string' ? status.docs_link : '/docs'
   useEffect(() => {
@@ -47,42 +47,32 @@ export function TokenXOneLanding(props: { isAuthenticated: boolean }) {
   const features = [
     {
       icon: Layers,
-      title: t('Unified access'),
-      text: t(
-        'Connect to different models through one API endpoint and reduce repeated integration work.'
-      ),
+      title: t('Connect'),
+      text: t('One API for multiple models.'),
     },
     {
       icon: KeyRound,
-      title: t('Choose for your task'),
-      text: t(
-        'Compare available models and prices to find the right fit for your application.'
-      ),
+      title: t('Choose'),
+      text: t('Compare capabilities and pricing.'),
     },
     {
       icon: Activity,
-      title: t('Understand your usage'),
-      text: t(
-        'Review requests and usage in the console to understand how your applications use models.'
-      ),
+      title: t('Track'),
+      text: t('Manage keys. Review requests and usage.'),
     },
   ]
   const steps = [
     {
-      title: t('Create an API key'),
-      text: t('Sign in to the console and create a key for your application.'),
+      title: t('Create a key'),
+      text: t('Generate an API key in your dashboard.'),
     },
     {
-      title: t('Configure your application'),
-      text: t(
-        'Set your API endpoint, key and model name using the integration guide.'
-      ),
+      title: t('Configure'),
+      text: t('Set your base URL, API key, and model.'),
     },
     {
-      title: t('Make your first request'),
-      text: t(
-        'Check the response, then review the corresponding usage in the console.'
-      ),
+      title: t('Send a request'),
+      text: t('Check the response and review your usage.'),
     },
   ]
   return (
@@ -93,7 +83,7 @@ export function TokenXOneLanding(props: { isAuthenticated: boolean }) {
             open
             onOpenChange={setAuthOpen}
             initialMode='sign-up'
-            redirectTo='/dashboard'
+            redirectTo='/keys'
           />
         </Suspense>
       )}
@@ -104,30 +94,31 @@ export function TokenXOneLanding(props: { isAuthenticated: boolean }) {
         />
         <div className='relative mx-auto grid max-w-6xl items-center gap-14 lg:grid-cols-[1fr_1fr] lg:gap-16'>
           <div className='min-w-0'>
-            <p className='tx-eyebrow mb-7'>
-              {t('Built for your next application')}
-            </p>
             <h1 className='text-5xl leading-[1.12] font-semibold tracking-[-0.045em] sm:text-6xl xl:text-7xl'>
               {t('Many models.')}
               <br />
               <span className='text-foreground'>{t('One connection.')}</span>
             </h1>
             <p className='text-muted-foreground mt-7 max-w-md text-base leading-8'>
-              {t(
-                'Access AI models through one API. Manage keys, requests and usage in one place, from your first request to your next application.'
-              )}
+              {t('Choose the model. Keep the workflow.')}
             </p>
             <div className='mt-8 flex flex-wrap gap-3'>
               <Button
                 role='link'
                 className='h-11 px-5'
+                render={<Link to='/pricing' />}
+              >
+                {t('Explore models')}
+              </Button>
+              <Button
+                role='link'
+                variant='outline'
+                className='h-11 px-5'
                 render={
                   <Link
                     to={destination}
                     search={
-                      props.isAuthenticated
-                        ? undefined
-                        : { redirect: '/dashboard' }
+                      props.isAuthenticated ? undefined : { redirect: '/keys' }
                     }
                     onClick={(event) => {
                       if (!props.isAuthenticated) {
@@ -138,35 +129,17 @@ export function TokenXOneLanding(props: { isAuthenticated: boolean }) {
                   />
                 }
               >
-                {props.isAuthenticated
-                  ? t('Go to Dashboard')
-                  : t('Start building')}
+                {t('Get API key')}
                 <ArrowRight aria-hidden='true' />
-              </Button>
-              <Button
-                role='link'
-                variant='outline'
-                className='h-11 px-5'
-                render={<Link to='/pricing' />}
-              >
-                {t('Models & pricing')}
               </Button>
             </div>
           </div>
           <TokenXOneApiPreview />
         </div>
-        <div className='tx-hero-foot relative mx-auto mt-16 flex max-w-6xl flex-wrap gap-x-8 gap-y-3 border-t pt-6 text-xs tracking-wide'>
-          <span>{t('One endpoint')}</span>
-          <span>{t('Your choice of models')}</span>
-          <span>{t('Usage in one place')}</span>
-        </div>
       </section>
       <section className='border-border/50 border-t px-6 py-20 md:py-24'>
         <div className='mx-auto max-w-6xl'>
-          <h2 className='text-3xl font-semibold tracking-tight'>
-            {t('Spend your time building.')}
-          </h2>
-          <div className='mt-10 grid gap-8 md:grid-cols-3'>
+          <div className='grid gap-8 md:grid-cols-3'>
             {features.map((feature) => (
               <article
                 key={feature.title}
@@ -176,7 +149,22 @@ export function TokenXOneLanding(props: { isAuthenticated: boolean }) {
                   className='text-primary mb-6 size-5'
                   aria-hidden='true'
                 />
-                <h3 className='text-lg font-semibold'>{feature.title}</h3>
+                <h2 className='text-lg font-semibold'>
+                  {feature.icon === KeyRound ? (
+                    <Link
+                      to='/pricing'
+                      className='underline-offset-4 hover:underline'
+                    >
+                      {feature.title}
+                      <ArrowRight
+                        aria-hidden='true'
+                        className='text-primary ml-2 inline size-4'
+                      />
+                    </Link>
+                  ) : (
+                    feature.title
+                  )}
+                </h2>
                 <p className='text-muted-foreground mt-3 text-sm leading-relaxed'>
                   {feature.text}
                 </p>
@@ -185,32 +173,10 @@ export function TokenXOneLanding(props: { isAuthenticated: boolean }) {
           </div>
         </div>
       </section>
-      <section className='tx-catalog border-border/50 border-y px-6 py-20 md:py-24'>
-        <div className='mx-auto grid max-w-6xl items-center gap-8 md:grid-cols-[1fr_auto]'>
-          <div>
-            <h2 className='text-3xl font-semibold tracking-tight'>
-              {t('The right model for your next idea.')}
-            </h2>
-            <p className='text-muted-foreground mt-4 max-w-2xl leading-relaxed'>
-              {t(
-                'Explore the models currently available on TokenXOne, with pricing and supported capabilities in one place.'
-              )}
-            </p>
-          </div>
-          <Button
-            role='link'
-            className='h-11 justify-self-start px-5'
-            render={<Link to='/pricing' />}
-          >
-            {t('View model catalog')}
-            <ArrowRight aria-hidden='true' />
-          </Button>
-        </div>
-      </section>
       <section className='px-6 py-20 md:py-24'>
         <div className='mx-auto max-w-6xl'>
           <h2 className='text-3xl font-semibold tracking-tight'>
-            {t('Start with an API key.')}
+            {t('Your first request.')}
           </h2>
           <ol className='mt-10 grid gap-10 md:grid-cols-3'>
             {steps.map((step, index) => (
@@ -231,7 +197,7 @@ export function TokenXOneLanding(props: { isAuthenticated: boolean }) {
             className='mt-10 h-10 px-4'
             render={<a href={docsUrl} />}
           >
-            {t('Read the integration guide')}
+            {t('Read the docs')}
             <ArrowRight aria-hidden='true' />
           </Button>
         </div>
@@ -247,9 +213,7 @@ export function TokenXOneLanding(props: { isAuthenticated: boolean }) {
           render={
             <Link
               to={destination}
-              search={
-                props.isAuthenticated ? undefined : { redirect: '/dashboard' }
-              }
+              search={props.isAuthenticated ? undefined : { redirect: '/keys' }}
               onClick={(event) => {
                 if (!props.isAuthenticated) {
                   event.preventDefault()
@@ -259,7 +223,7 @@ export function TokenXOneLanding(props: { isAuthenticated: boolean }) {
             />
           }
         >
-          {props.isAuthenticated ? t('Go to Dashboard') : t('Start building')}
+          {t('Get API key')}
           <ArrowRight aria-hidden='true' />
         </Button>
       </section>

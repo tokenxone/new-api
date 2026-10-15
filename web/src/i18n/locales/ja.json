@@ -7330,6 +7330,27 @@
     "Your first request": "Your first request",
     "Example language": "Example language",
     "Copy request example": "Copy request example",
-    "Replace YOUR_MODEL_ID with a model from the catalog. Keep your API key on the server.": "Replace YOUR_MODEL_ID with a model from the catalog. Keep your API key on the server."
+    "Replace YOUR_MODEL_ID with a model from the catalog. Keep your API key on the server.": "Replace YOUR_MODEL_ID with a model from the catalog. Keep your API key on the server.",
+    "Choose": "Choose",
+    "Track": "Track",
+    "One API for multiple models.": "One API for multiple models.",
+    "Compare capabilities and pricing.": "Compare capabilities and pricing.",
+    "Manage keys. Review requests and usage.": "Manage keys. Review requests and usage.",
+    "Create a key": "Create a key",
+    "Generate an API key in your dashboard.": "Generate an API key in your dashboard.",
+    "Set your base URL, API key, and model.": "Set your base URL, API key, and model.",
+    "Check the response and review your usage.": "Check the response and review your usage.",
+    "Choose the model. Keep the workflow.": "Choose the model. Keep the workflow.",
+    "Your first request.": "Your first request.",
+    "Read the docs": "Read the docs",
+    "Get API key": "Get API key",
+    "Explore models": "Explore models",
+    "Request example": "Request example",
+    "FAQs": "FAQs",
+    "Can I use my existing app?": "Can I use my existing app?",
+    "How do I track usage?": "How do I track usage?",
+    "View request history and usage in your dashboard.": "View request history and usage in your dashboard.",
+    "Pricing varies by model. Check model prices before sending requests, then review charges in your usage history.": "Pricing varies by model. Check model prices before sending requests, then review charges in your usage history.",
+    "If your app supports a custom API base URL and API key, you can configure it to use TokenXOne. Compatibility depends on the API and model features your app needs.": "If your app supports a custom API base URL and API key, you can configure it to use TokenXOne. Compatibility depends on the API and model features your app needs."
   }
 }
