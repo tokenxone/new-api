@@ -7351,6 +7351,7 @@
     "How do I track usage?": "如何查看用量？",
     "View request history and usage in your dashboard.": "在工作台查看请求记录与用量。",
     "Pricing varies by model. Check model prices before sending requests, then review charges in your usage history.": "不同模型的价格不同。调用前可查看模型价格，调用后可在用量记录中核对费用。",
-    "If your app supports a custom API base URL and API key, you can configure it to use TokenXOne. Compatibility depends on the API and model features your app needs.": "如果应用支持自定义 API 地址和密钥，就可以配置接入 TokenXOne。是否兼容取决于应用使用的 API 和模型功能。"
+    "If your app supports a custom API base URL and API key, you can configure it to use TokenXOne. Compatibility depends on the API and model features your app needs.": "如果应用支持自定义 API 地址和密钥，就可以配置接入 TokenXOne。是否兼容取决于应用使用的 API 和模型功能。",
+    "One place to build.": "接入与管理，一处完成。"
   }
 }

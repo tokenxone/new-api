@@ -7351,6 +7351,7 @@
     "How do I track usage?": "How do I track usage?",
     "View request history and usage in your dashboard.": "View request history and usage in your dashboard.",
     "Pricing varies by model. Check model prices before sending requests, then review charges in your usage history.": "Pricing varies by model. Check model prices before sending requests, then review charges in your usage history.",
-    "If your app supports a custom API base URL and API key, you can configure it to use TokenXOne. Compatibility depends on the API and model features your app needs.": "If your app supports a custom API base URL and API key, you can configure it to use TokenXOne. Compatibility depends on the API and model features your app needs."
+    "If your app supports a custom API base URL and API key, you can configure it to use TokenXOne. Compatibility depends on the API and model features your app needs.": "If your app supports a custom API base URL and API key, you can configure it to use TokenXOne. Compatibility depends on the API and model features your app needs.",
+    "One place to build.": "Un seul espace pour créer."
   }
 }

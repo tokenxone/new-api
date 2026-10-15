@@ -139,7 +139,10 @@ export function TokenXOneLanding(props: { isAuthenticated: boolean }) {
       </section>
       <section className='border-border/50 border-t px-6 py-20 md:py-24'>
         <div className='mx-auto max-w-6xl'>
-          <div className='grid gap-8 md:grid-cols-3'>
+          <h2 className='text-3xl font-semibold tracking-tight'>
+            {t('One place to build.')}
+          </h2>
+          <div className='mt-10 grid gap-8 md:grid-cols-3'>
             {features.map((feature) => (
               <article
                 key={feature.title}
@@ -149,7 +152,7 @@ export function TokenXOneLanding(props: { isAuthenticated: boolean }) {
                   className='text-primary mb-6 size-5'
                   aria-hidden='true'
                 />
-                <h2 className='text-lg font-semibold'>
+                <h3 className='text-lg font-semibold'>
                   {feature.icon === KeyRound ? (
                     <Link
                       to='/pricing'
@@ -164,7 +167,7 @@ export function TokenXOneLanding(props: { isAuthenticated: boolean }) {
                   ) : (
                     feature.title
                   )}
-                </h2>
+                </h3>
                 <p className='text-muted-foreground mt-3 text-sm leading-relaxed'>
                   {feature.text}
                 </p>
