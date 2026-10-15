@@ -18,32 +18,57 @@ For commercial licensing, please contact support@quantumnous.com
 */
 import { describe, expect, test } from 'vitest'
 
-import { convertDetectedLanguage } from './languages'
+import {
+  convertDetectedLanguage,
+  normalizeInterfaceLanguage,
+  toIntlLocale,
+} from './languages'
 
-describe('convertDetectedLanguage', () => {
-  test('maps browser BCP-47 Chinese tags onto interface codes', () => {
-    expect(convertDetectedLanguage('zh-TW')).toBe('zhTW')
-    expect(convertDetectedLanguage('zh-HK')).toBe('zhTW')
-    expect(convertDetectedLanguage('zh-MO')).toBe('zhTW')
-    expect(convertDetectedLanguage('zh-Hant-TW')).toBe('zhTW')
-    expect(convertDetectedLanguage('zh')).toBe('zhCN')
-    expect(convertDetectedLanguage('zh-CN')).toBe('zhCN')
-    expect(convertDetectedLanguage('zh-Hans')).toBe('zhCN')
+describe('two-language interface', () => {
+  test.each([
+    'zh',
+    'zh-CN',
+    'zhCN',
+    'zh_Hans',
+    'zh-TW',
+    'zhTW',
+    'zh-HK',
+    'zh-MO',
+    'zh-Hant-TW',
+  ])('maps Chinese preference %s to Simplified Chinese', (value) => {
+    expect(convertDetectedLanguage(value)).toBe('zhCN')
+    expect(normalizeInterfaceLanguage(value)).toBe('zhCN')
   })
-
-  test('keeps already-normalized interface codes stable (localStorage round-trip)', () => {
-    // i18next caches `zhTW`/`zhCN` (the supportedLngs codes) to localStorage,
-    // and the detector runs this converter on the cached value at every page
-    // load — if `zhTW` does not survive the round-trip, a user who picked
-    // Traditional Chinese is flipped to Simplified on the next load and the
-    // cache is overwritten, making the flip permanent.
-    expect(convertDetectedLanguage('zhTW')).toBe('zhTW')
-    expect(convertDetectedLanguage('zhCN')).toBe('zhCN')
+  test.each(['en', 'en-US', 'fr', 'fr-FR', 'ru', 'ja', 'vi', '', 'invalid'])(
+    'maps other preference %s to English',
+    (value) => {
+      expect(convertDetectedLanguage(value)).toBe('en')
+      expect(normalizeInterfaceLanguage(value)).toBe('en')
+    }
+  )
+  test('uses English when the saved preference is missing', () => {
+    expect(normalizeInterfaceLanguage(null)).toBe('en')
+    expect(normalizeInterfaceLanguage()).toBe('en')
   })
-
-  test('passes non-Chinese values through unchanged', () => {
-    expect(convertDetectedLanguage('en')).toBe('en')
-    expect(convertDetectedLanguage('fr-FR')).toBe('fr-FR')
-    expect(convertDetectedLanguage('ja')).toBe('ja')
+  test.each([
+    ['zhCN', 'zh-CN'],
+    ['zhTW', 'zh-TW'],
+    ['en', 'en'],
+    ['fr', 'fr'],
+    ['ru', 'ru'],
+    ['ja', 'ja'],
+    ['vi', 'vi'],
+  ])('preserves Intl compatibility for %s', (value, expected) => {
+    expect(toIntlLocale(value)).toBe(expected)
+  })
+  test('loads only English and Simplified Chinese and resolves unsupported languages safely', async () => {
+    const { default: i18n, resources } = await import('./config')
+    expect(Object.keys(resources).sort()).toEqual(['en', 'zhCN'])
+    await i18n.changeLanguage(convertDetectedLanguage('zhTW'))
+    expect(i18n.resolvedLanguage).toBe('zhCN')
+    expect(i18n.t('Change language')).toBe('更改语言')
+    await i18n.changeLanguage('fr')
+    expect(i18n.resolvedLanguage).toBe('en')
+    expect(i18n.t('Change language')).toBe('Change language')
   })
 })
