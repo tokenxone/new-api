@@ -7321,6 +7321,15 @@
     "If this email is registered, a reset link will arrive shortly.": "登録済みのメールアドレスには、パスワード再設定リンクが届きます。",
     "Password updated. Sign in with your new password.": "パスワードを更新しました。新しいパスワードでログインしてください。",
     "Google authorization failed. Please try again.": "Google 認証に失敗しました。もう一度お試しください。",
-    "Or continue with email": "またはメールアドレスで続行"
+    "Or continue with email": "またはメールアドレスで続行",
+    "Built for your next application": "Built for your next application",
+    "One endpoint": "One endpoint",
+    "Your choice of models": "Your choice of models",
+    "Usage in one place": "Usage in one place",
+    "API request example": "API request example",
+    "Your first request": "Your first request",
+    "Example language": "Example language",
+    "Copy request example": "Copy request example",
+    "Replace YOUR_MODEL_ID with a model from the catalog. Keep your API key on the server.": "Replace YOUR_MODEL_ID with a model from the catalog. Keep your API key on the server."
   }
 }

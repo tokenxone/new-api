@@ -7321,6 +7321,15 @@
     "If this email is registered, a reset link will arrive shortly.": "如果该邮箱已注册，你将收到密码重置链接。",
     "Password updated. Sign in with your new password.": "密码已更新，请使用新密码登录。",
     "Google authorization failed. Please try again.": "Google 授权失败，请重试。",
-    "Or continue with email": "或使用邮箱"
+    "Or continue with email": "或使用邮箱",
+    "Built for your next application": "为下一个应用而生",
+    "One endpoint": "统一接口",
+    "Your choice of models": "模型自由选择",
+    "Usage in one place": "用量集中管理",
+    "API request example": "API 请求示例",
+    "Your first request": "从一次请求开始",
+    "Example language": "示例语言",
+    "Copy request example": "复制请求示例",
+    "Replace YOUR_MODEL_ID with a model from the catalog. Keep your API key on the server.": "将 YOUR_MODEL_ID 替换为模型目录中的模型 ID。API 密钥请保存在服务端。"
   }
 }

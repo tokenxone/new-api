@@ -7321,6 +7321,15 @@
     "If this email is registered, a reset link will arrive shortly.": "如果此電子郵件已註冊，你將收到密碼重設連結。",
     "Password updated. Sign in with your new password.": "密碼已更新，請使用新密碼登入。",
     "Google authorization failed. Please try again.": "Google 授權失敗，請重試。",
-    "Or continue with email": "或使用電子郵件"
+    "Or continue with email": "或使用電子郵件",
+    "Built for your next application": "Built for your next application",
+    "One endpoint": "One endpoint",
+    "Your choice of models": "Your choice of models",
+    "Usage in one place": "Usage in one place",
+    "API request example": "API request example",
+    "Your first request": "Your first request",
+    "Example language": "Example language",
+    "Copy request example": "Copy request example",
+    "Replace YOUR_MODEL_ID with a model from the catalog. Keep your API key on the server.": "Replace YOUR_MODEL_ID with a model from the catalog. Keep your API key on the server."
   }
 }

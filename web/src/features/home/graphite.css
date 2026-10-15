@@ -1,0 +1,98 @@
+.tokenxone-home {
+  color-scheme: dark;
+  --background: #0b0d12;
+  --foreground: #f3f5f7;
+  --card: #11151d;
+  --card-foreground: #f3f5f7;
+  --popover: #181e29;
+  --popover-foreground: #f3f5f7;
+  --primary: #89b4ff;
+  --primary-foreground: #0b1526;
+  --secondary: #181e29;
+  --secondary-foreground: #f3f5f7;
+  --muted: #181e29;
+  --muted-foreground: #a6aebc;
+  --accent: #202a3b;
+  --accent-foreground: #f3f5f7;
+  --border: #293140;
+  --input: #293140;
+  --ring: #89b4ff;
+}
+.tx-hero-light {
+  background:
+    radial-gradient(ellipse at 83% 38%, #27457855, transparent 49%),
+    radial-gradient(ellipse at 4% 0%, #29314044, transparent 44%);
+}
+.tx-eyebrow {
+  color: #a6bfe6;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+.tx-hero-foot {
+  border-color: #29314080;
+  color: #a6aebc;
+}
+.tx-hero-foot span::before {
+  content: '/';
+  margin-right: 12px;
+  color: #89b4ff;
+}
+.tx-preview {
+  border: 1px solid #3b4c68;
+  border-radius: 16px;
+  background: linear-gradient(145deg, #181e29, #10151e 70%);
+  box-shadow:
+    0 28px 90px #0005,
+    0 0 70px #466eae12;
+}
+.tx-preview-heading,
+.tx-preview-note {
+  border-color: #293140;
+}
+.tx-example-label {
+  color: #a6aebc;
+}
+.tx-code {
+  height: 365px;
+  color: #c8dcff;
+}
+.tx-preview-note {
+  color: #a6aebc;
+  background: #0b0d1240;
+  border-radius: 0 0 16px 16px;
+}
+.tx-feature {
+  transition: border-color 180ms ease;
+}
+.tx-feature:hover {
+  border-color: #89b4ff;
+}
+.tx-catalog {
+  background:
+    radial-gradient(ellipse at 90% 50%, #27457830, transparent 60%), #11151d;
+}
+.tx-closing {
+  background:
+    radial-gradient(ellipse at 50% 110%, #34578b45, transparent 70%), #0d1119;
+}
+.tokenxone-home :focus-visible {
+  outline-offset: 4px;
+}
+@media (max-width: 639px) {
+  .tx-code {
+    height: 365px;
+  }
+  .tx-hero-light {
+    background: radial-gradient(ellipse at 80% 65%, #27457855, transparent 65%);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .tx-landing *,
+  .tx-landing *::before,
+  .tx-landing *::after {
+    transition: none !important;
+    animation: none !important;
+  }
+}

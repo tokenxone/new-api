@@ -24,6 +24,7 @@ import { useTranslation } from 'react-i18next'
 import { Button } from '@/components/ui/button'
 import { useStatus } from '@/hooks/use-status'
 
+import { TokenXOneApiPreview } from './tokenxone-api-preview'
 import { TokenXOneFAQ } from './tokenxone-faq'
 
 const AuthDialog = lazy(() => import('@/features/auth/components/auth-dialog'))
@@ -85,7 +86,7 @@ export function TokenXOneLanding(props: { isAuthenticated: boolean }) {
     },
   ]
   return (
-    <main>
+    <main className='tx-landing'>
       {authOpen && (
         <Suspense fallback={null}>
           <AuthDialog
@@ -96,19 +97,22 @@ export function TokenXOneLanding(props: { isAuthenticated: boolean }) {
           />
         </Suspense>
       )}
-      <section className='relative overflow-hidden px-6 pt-28 pb-20 md:pt-40 md:pb-28'>
+      <section className='tx-hero relative overflow-hidden px-6 pt-32 pb-20 md:pt-44 md:pb-28'>
         <div
           aria-hidden='true'
-          className='via-background pointer-events-none absolute inset-0 bg-gradient-to-br from-blue-500/10 to-violet-500/10'
+          className='tx-hero-light pointer-events-none absolute inset-0'
         />
-        <div className='relative mx-auto max-w-6xl'>
-          <div>
-            <h1 className='text-5xl leading-[1.12] font-bold tracking-tight sm:text-6xl'>
+        <div className='relative mx-auto grid max-w-6xl items-center gap-14 lg:grid-cols-[1fr_1fr] lg:gap-16'>
+          <div className='min-w-0'>
+            <p className='tx-eyebrow mb-7'>
+              {t('Built for your next application')}
+            </p>
+            <h1 className='text-5xl leading-[1.12] font-semibold tracking-[-0.045em] sm:text-6xl xl:text-7xl'>
               {t('Many models.')}
               <br />
-              <span className='text-primary'>{t('One connection.')}</span>
+              <span className='text-foreground'>{t('One connection.')}</span>
             </h1>
-            <p className='text-muted-foreground mt-6 max-w-xl text-base leading-relaxed'>
+            <p className='text-muted-foreground mt-7 max-w-md text-base leading-8'>
               {t(
                 'Access AI models through one API. Manage keys, requests and usage in one place, from your first request to your next application.'
               )}
@@ -149,6 +153,12 @@ export function TokenXOneLanding(props: { isAuthenticated: boolean }) {
               </Button>
             </div>
           </div>
+          <TokenXOneApiPreview />
+        </div>
+        <div className='tx-hero-foot relative mx-auto mt-16 flex max-w-6xl flex-wrap gap-x-8 gap-y-3 border-t pt-6 text-xs tracking-wide'>
+          <span>{t('One endpoint')}</span>
+          <span>{t('Your choice of models')}</span>
+          <span>{t('Usage in one place')}</span>
         </div>
       </section>
       <section className='border-border/50 border-t px-6 py-20 md:py-24'>
@@ -160,10 +170,10 @@ export function TokenXOneLanding(props: { isAuthenticated: boolean }) {
             {features.map((feature) => (
               <article
                 key={feature.title}
-                className='border-border/60 rounded-xl border p-6'
+                className='tx-feature border-border/60 border-t pt-7'
               >
                 <feature.icon
-                  className='text-primary mb-6 size-6'
+                  className='text-primary mb-6 size-5'
                   aria-hidden='true'
                 />
                 <h3 className='text-lg font-semibold'>{feature.title}</h3>
@@ -175,7 +185,7 @@ export function TokenXOneLanding(props: { isAuthenticated: boolean }) {
           </div>
         </div>
       </section>
-      <section className='bg-muted/30 px-6 py-20'>
+      <section className='tx-catalog border-border/50 border-y px-6 py-20 md:py-24'>
         <div className='mx-auto grid max-w-6xl items-center gap-8 md:grid-cols-[1fr_auto]'>
           <div>
             <h2 className='text-3xl font-semibold tracking-tight'>
@@ -227,7 +237,7 @@ export function TokenXOneLanding(props: { isAuthenticated: boolean }) {
         </div>
       </section>
       <TokenXOneFAQ />
-      <section className='bg-primary/5 px-6 py-20 text-center md:py-24'>
+      <section className='tx-closing border-border/50 relative overflow-hidden border-t px-6 py-20 text-center md:py-28'>
         <h2 className='text-3xl font-semibold tracking-tight md:text-4xl'>
           {t('Put your next idea into motion.')}
         </h2>

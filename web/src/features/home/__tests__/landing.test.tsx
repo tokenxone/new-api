@@ -97,6 +97,28 @@ describe('TokenXOne landing page', () => {
       screen.queryByRole('link', { name: 'Start building' })
     ).not.toBeInTheDocument()
   })
+  it('switches request examples with the keyboard and copies the active language', async () => {
+    const user = userEvent.setup()
+    await renderLanding()
+    const curl = await screen.findByRole('tab', { name: 'cURL' })
+    curl.focus()
+    await user.keyboard('{ArrowRight}')
+    const python = screen.getByRole('tab', { name: 'Python' })
+    await user.keyboard('{Enter}')
+    expect(python).toHaveAttribute('aria-selected', 'true')
+    expect(screen.getByRole('tabpanel')).toHaveTextContent(
+      'from openai import OpenAI'
+    )
+    await user.click(
+      screen.getByRole('button', { name: 'Copy request example' })
+    )
+    expect(await navigator.clipboard.readText()).toContain(
+      'from openai import OpenAI'
+    )
+    await act(() => i18next.changeLanguage('zhCN'))
+    expect(screen.getByRole('region', { name: 'API 请求示例' })).toBeVisible()
+    expect(python).toHaveAttribute('aria-selected', 'true')
+  })
   it('opens and closes a FAQ answer with the keyboard', async () => {
     await renderLanding()
     const user = userEvent.setup()
